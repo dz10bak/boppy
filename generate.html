@@ -178,6 +178,94 @@
             font-weight: 600;
         }
 
+        /* Range slider */
+        .range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--surface-lighter);
+            outline: none;
+            margin-top: 8px;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--surface);
+            box-shadow: 0 2px 8px rgba(255,142,72,0.3);
+            transition: transform 0.15s;
+        }
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .range-slider::-moz-range-thumb {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid var(--surface);
+            box-shadow: 0 2px 8px rgba(255,142,72,0.3);
+        }
+        .range-slider:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .range-slider:disabled::-webkit-slider-thumb {
+            cursor: not-allowed;
+        }
+
+        /* Select input */
+        .select-input {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-light);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        .select-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .select-input option {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        /* Seed input */
+        .seed-input {
+            width: 140px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-light);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            transition: border-color 0.2s;
+        }
+        .seed-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .seed-input::-webkit-inner-spin-button { opacity: 0.5; }
+
         /* Boost button */
         .boost-btn {
             display: inline-flex; align-items: center; gap: 8px;
@@ -639,6 +727,113 @@
                             <button class="toggle-btn" data-value="300" onclick="selectToggle('durationGroup', this)">5 min</button>
                         </div>
                     </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Inference Steps <span id="stepsValue" style="color:var(--primary);font-weight:800;">8</span></div>
+                        <input type="range" class="range-slider" id="stepsSlider" min="8" max="8" value="8" disabled oninput="updateSliderLabel('stepsSlider','stepsValue')">
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;">
+                            <span>Turbo: fixed at 8</span><span>Base: 5–100</span>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Guidance Scale <span id="guidanceValue" style="color:var(--primary);font-weight:800;">1</span></div>
+                        <input type="range" class="range-slider" id="guidanceSlider" min="1" max="1" value="1" disabled oninput="updateSliderLabel('guidanceSlider','guidanceValue')">
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;">
+                            <span>Turbo: fixed at 1</span><span>Base: 3–20</span>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">BPM <span id="bpmValue" style="color:var(--primary);font-weight:800;">120</span></div>
+                        <input type="range" class="range-slider" id="bpmSlider" min="50" max="200" value="120" oninput="document.getElementById('bpmValue').textContent=this.value">
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;">
+                            <span>50 (slow)</span><span>200 (fast)</span>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Key / Scale</div>
+                        <div class="toggle-group" style="flex-wrap:wrap;" id="keyscaleGroup">
+                            <select class="select-input" id="keyscaleSelect">
+                                <option value="">Auto</option>
+                                <option value="C major">C major</option>
+                                <option value="C minor">C minor</option>
+                                <option value="C# major">C# major</option>
+                                <option value="C# minor">C# minor</option>
+                                <option value="D major">D major</option>
+                                <option value="D minor">D minor</option>
+                                <option value="Eb major">Eb major</option>
+                                <option value="Eb minor">Eb minor</option>
+                                <option value="E major">E major</option>
+                                <option value="E minor">E minor</option>
+                                <option value="F major">F major</option>
+                                <option value="F minor">F minor</option>
+                                <option value="F# major">F# major</option>
+                                <option value="F# minor">F# minor</option>
+                                <option value="G major">G major</option>
+                                <option value="G minor">G minor</option>
+                                <option value="Ab major">Ab major</option>
+                                <option value="Ab minor">Ab minor</option>
+                                <option value="A major">A major</option>
+                                <option value="A minor">A minor</option>
+                                <option value="Bb major">Bb major</option>
+                                <option value="Bb minor">Bb minor</option>
+                                <option value="B major">B major</option>
+                                <option value="B minor">B minor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Time Signature</div>
+                        <div class="toggle-group" id="timesigGroup">
+                            <button class="toggle-btn" data-value="2" onclick="selectToggle('timesigGroup', this)">2/4</button>
+                            <button class="toggle-btn" data-value="3" onclick="selectToggle('timesigGroup', this)">3/4</button>
+                            <button class="toggle-btn active" data-value="4" onclick="selectToggle('timesigGroup', this)">4/4</button>
+                            <button class="toggle-btn" data-value="6" onclick="selectToggle('timesigGroup', this)">6/8</button>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Vocal Language</div>
+                        <select class="select-input" id="vocalLangSelect">
+                            <option value="">Auto</option>
+                            <option value="en" selected>English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                            <option value="pl">Polish</option>
+                            <option value="nl">Dutch</option>
+                            <option value="sv">Swedish</option>
+                            <option value="tr">Turkish</option>
+                        </select>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Format</div>
+                        <div class="toggle-group" id="formatGroup">
+                            <button class="toggle-btn active" data-value="flac" onclick="selectToggle('formatGroup', this)">FLAC</button>
+                            <button class="toggle-btn" data-value="wav" onclick="selectToggle('formatGroup', this)">WAV</button>
+                            <button class="toggle-btn" data-value="mp3" onclick="selectToggle('formatGroup', this)">MP3</button>
+                        </div>
+                    </div>
+
+                    <div class="config-row">
+                        <div class="config-label">Seed</div>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="number" class="seed-input" id="seedInput" value="-1" min="-1" placeholder="-1 = random">
+                            <span style="font-size:12px;color:var(--muted);">-1 = random</span>
+                        </div>
+                    </div>
                 </div>
 
                 <button class="boost-btn" onclick="boostPrompt()">
@@ -656,14 +851,14 @@
                     <span class="num">3</span>
                     Edit lyrics
                 </div>
-                <textarea class="lyrics-area" id="lyricsEditor" placeholder="AI-generated lyrics will appear here..."></textarea>
+                <textarea class="lyrics-area" id="lyricsEditor" placeholder="Write your lyrics here using [Verse], [Chorus], [Bridge] tags...&#10;&#10;Leave empty for an instrumental track.&#10;&#10;Example:&#10;[Verse]&#10;Walking through the golden light&#10;Every shadow fades from sight&#10;&#10;[Chorus]&#10;We're on fire tonight&#10;Burning brighter than the stars"></textarea>
                 <div class="structure-hint">
                     <span>&#128161;</span>
                     Use <code>[Verse]</code>, <code>[Chorus]</code>, <code>[Bridge]</code> to guide structure
                 </div>
 
                 <div class="field-label">Music Description</div>
-                <textarea class="music-desc-field" id="musicDescField" readonly placeholder="Auto-generated music description..."></textarea>
+                <textarea class="music-desc-field" id="musicDescField" placeholder="Describe the sound: genre, mood, instruments, tempo..."></textarea>
 
                 <button class="btn-action" onclick="startGenerating()">
                     &#10022; Generate Track
@@ -700,10 +895,21 @@
                         </div>
                     </div>
 
+                    <div class="result-lyrics">
+                        <button class="result-lyrics-toggle" onclick="toggleResultLyrics()">
+                            <span class="arrow">&#9660;</span> Show Lyrics
+                        </button>
+                        <div class="lyrics-content"></div>
+                    </div>
+
                     <div class="result-actions">
                         <button class="btn-secondary" onclick="shareSong()">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                             Share
+                        </button>
+                        <button class="btn-secondary" onclick="downloadSong()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download
                         </button>
                         <button class="btn-new" onclick="createAnother()">
                             + Create another track
@@ -731,7 +937,23 @@
         </div>
     </footer>
 
+    <!-- Toast for notifications -->
+    <div class="toast" id="toast"></div>
+
     <script>
+        // ── Config ──
+        const API_BASE = 'https://api.deapi.ai/api/v1/client';
+        const API_KEY = '6942|J2iD3c9jGO7UqMArIwyCe2Yf4y7TJ1FFlhh0ClAq75ca84a9';
+        const MODELS = {
+            turbo: { slug: 'AceStep_1_5_Turbo', steps: 8, guidance: 1, minSteps: 8, maxSteps: 8, minGuidance: 1, maxGuidance: 1 },
+            base:  { slug: 'AceStep_1_5_Base',  steps: 32, guidance: 7, minSteps: 5, maxSteps: 100, minGuidance: 3, maxGuidance: 20 }
+        };
+
+        let currentAudio = null;
+        let isPlaying = false;
+        let animFrame = null;
+        let currentResultUrl = null;
+
         // ── Boost descriptions ──
         const boostDescriptions = [
             "An upbeat summer pop anthem with soaring vocal harmonies, bright major-key synth arpeggios, punchy four-on-the-floor kicks, and a euphoric chorus drop. Think warm beach sunset energy with a danceable groove.",
@@ -741,6 +963,235 @@
             "A cinematic orchestral piece with sweeping string arrangements, dramatic brass swells, ethereal choir pads, and a thunderous percussion build. Epic and emotional, like the final scene of a film.",
             "A bouncy tropical house track with steel drum melodies, crisp plucked synths, shuffling percussion, and a feel-good vocal hook. Sun-drenched and infectious, made for rooftop parties."
         ];
+
+        // ── Lyrics generator that builds text FROM the prompt ──
+        function generateLyricsFromPrompt(prompt) {
+            const lower = prompt.toLowerCase();
+
+            // Extract meaningful words (nouns, adjectives, themes) from prompt
+            const stopWords = new Set(['a','an','the','with','and','or','but','in','on','at','to','for','of','is','it','my','your','this','that','i','we','me','you','be','do','so','up','no','not','by','as','if','its','has','had','was','are','am','get','got','can','will','would','could','should','may','might','just','very','really','much','more','most','some','any','all','each','every','from','into','over','also','been','being','have','about','like','make','made','want','think','feel','know','need','take','give','say','tell','ask','try','use','come','go','see','look','find','back','way','new','now','only','then','than','when','here','there','where','what','how','who','why','which','them','they','their','our','out','off','down','still','too','own','such','through','during','after','before','between','under','around','without','another','those','these','other','both','few','many','same','well','even','because','since','while','although','though','until','unless','once','upon','across','along','behind','beside','beyond','despite','toward','within','song','track','music','sound','beat','audio','vibe','energy','style','genre','mood','tone','tempo','vocal','vocals','melody','tune']);
+
+            const words = lower
+                .replace(/[^a-z0-9\s-]/g, '')
+                .split(/\s+/)
+                .filter(w => w.length > 2 && !stopWords.has(w));
+
+            // Remove duplicates, keep order
+            const themes = [...new Set(words)].slice(0, 12);
+
+            // If too few themes, return instrumental
+            if (themes.length < 2) return '[Instrumental]';
+
+            // Helper: pick random item from array
+            const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+            // Helper: rhyming line endings based on a theme word
+            const rhymePairs = [
+                ['light','night'], ['sky','high'], ['fire','desire'], ['dream','stream'],
+                ['rain','pain'], ['heart','start'], ['soul','control'], ['mind','find'],
+                ['day','way'], ['time','rhyme'], ['gold','told'], ['eyes','skies'],
+                ['fall','all'], ['burn','turn'], ['glow','flow'], ['deep','sleep'],
+                ['bright','sight'], ['lost','cost'], ['dawn','gone'], ['air','there'],
+                ['sun','run'], ['star','far'], ['wave','brave'], ['road','load'],
+                ['free','sea'], ['stone','alone'], ['blade','shade'], ['flame','name'],
+                ['rise','eyes'], ['ground','sound'], ['blue','true'], ['cold','hold'],
+            ];
+
+            // Build verse lines that reference the actual themes
+            function makeLine(themeWord) {
+                const templates = [
+                    `The ${themeWord} is all I ever needed`,
+                    `I found the ${themeWord} when I stopped believing`,
+                    `Chasing ${themeWord} through the fading hours`,
+                    `${themeWord} echoes in the silence`,
+                    `Lost inside the ${themeWord} and I don't mind`,
+                    `The ${themeWord} pulls me closer every time`,
+                    `I can taste the ${themeWord} on my tongue`,
+                    `Underneath the ${themeWord} we become one`,
+                    `${themeWord} running through my veins tonight`,
+                    `Every ${themeWord} tells a different story`,
+                    `We were born from ${themeWord} and from dust`,
+                    `I can feel the ${themeWord} in my bones`,
+                    `Drowning in the ${themeWord} but I breathe`,
+                    `The ${themeWord} carries us to somewhere new`,
+                    `Nothing but the ${themeWord} and the truth`,
+                    `${themeWord} painted on the evening sky`,
+                    `I keep coming back for the ${themeWord}`,
+                    `There's ${themeWord} in everything we do`,
+                    `Wrapped in ${themeWord} like a second skin`,
+                    `The world dissolves and all I see is ${themeWord}`,
+                ];
+                return pick(templates).replace(/^\w/, c => c.toUpperCase());
+            }
+
+            function makeRhymingCouplet(themeWord) {
+                const pair = pick(rhymePairs);
+                const couplets = [
+                    [`Into the ${themeWord} we chase the ${pair[0]}`, `Everything we are burning ${pair[1]}`],
+                    [`The ${themeWord} takes me past the ${pair[0]}`, `I never thought I'd feel this ${pair[1]}`],
+                    [`With ${themeWord} there is no ${pair[0]}`, `Only ${pair[1]} only you and I`],
+                    [`Beyond the ${themeWord} beyond the ${pair[0]}`, `We find the ${pair[1]} we left behind`],
+                    [`I see the ${themeWord} I see the ${pair[0]}`, `And somewhere in between I feel ${pair[1]}`],
+                ];
+                return pick(couplets);
+            }
+
+            // Build the song structure
+            let t = 0; // theme index
+            const nextTheme = () => themes[t++ % themes.length];
+
+            const v1t1 = nextTheme(), v1t2 = nextTheme();
+            const ct1 = nextTheme(), ct2 = nextTheme();
+            const v2t1 = nextTheme(), v2t2 = nextTheme();
+            const bt1 = nextTheme();
+
+            const v1c1 = makeRhymingCouplet(v1t1);
+            const v1c2 = makeRhymingCouplet(v1t2);
+            const chorusL1 = makeLine(ct1);
+            const chorusC = makeRhymingCouplet(ct2);
+            const v2c1 = makeRhymingCouplet(v2t1);
+            const v2c2 = makeRhymingCouplet(v2t2);
+            const bridgeL1 = makeLine(bt1);
+            const bridgeC = makeRhymingCouplet(bt1);
+
+            return `[Verse]
+${v1c1[0]}
+${v1c1[1]}
+${v1c2[0]}
+${v1c2[1]}
+
+[Chorus]
+${chorusL1}
+${chorusC[0]}
+${chorusC[1]}
+${makeLine(ct1)}
+
+[Verse]
+${v2c1[0]}
+${v2c1[1]}
+${v2c2[0]}
+${v2c2[1]}
+
+[Chorus]
+${chorusL1}
+${chorusC[0]}
+${chorusC[1]}
+${makeLine(ct1)}
+
+[Bridge]
+${bridgeL1}
+${bridgeC[0]}
+${bridgeC[1]}
+
+[Chorus]
+${chorusL1}
+${chorusC[0]}
+${chorusC[1]}
+${makeLine(ct1)}`;
+        }
+
+        // ── Caption enhancer: expand genre keywords into detailed musical descriptions ──
+        const genreEnhancers = [
+            { keywords: ['rap','hip-hop','hip hop','hiphop','trap','drill'],
+              desc: 'rap, hip-hop, heavy 808 bass, trap hi-hats, rhythmic vocal flow, punchy kick drums, dark atmosphere, hard-hitting beats' },
+            { keywords: ['hard rock','heavy rock','rock'],
+              desc: 'rock, distorted electric guitars, heavy drum fills, powerful vocals, aggressive guitar riffs, driving bass, stadium energy' },
+            { keywords: ['metal','heavy metal','death metal','thrash'],
+              desc: 'heavy metal, down-tuned distorted guitars, double bass drum, aggressive screaming vocals, fast shredding solos, crushing riffs' },
+            { keywords: ['pop'],
+              desc: 'pop, catchy vocal hooks, bright synth pads, four-on-the-floor beat, polished production, radio-friendly, major key melodies' },
+            { keywords: ['r&b','rnb','r and b'],
+              desc: 'R&B, smooth silky vocals, deep sub-bass, lo-fi texture, lush reverbed chords, intimate atmosphere, slow groove' },
+            { keywords: ['jazz'],
+              desc: 'jazz, improvised saxophone, walking bass line, brushed drums, piano comping, swing feel, smoky lounge atmosphere' },
+            { keywords: ['blues'],
+              desc: 'blues, 12-bar blues progression, slide guitar, soulful vocals, harmonica, shuffle rhythm, raw emotional delivery' },
+            { keywords: ['electronic','edm'],
+              desc: 'electronic, punchy synthesizers, sidechained bass, build-ups and drops, arpeggiated sequences, crisp hi-hats, festival energy' },
+            { keywords: ['techno'],
+              desc: 'techno, driving four-on-the-floor kick, hypnotic synth loops, industrial textures, minimal arrangement, dark warehouse energy' },
+            { keywords: ['house','deep house'],
+              desc: 'house music, groovy bassline, soulful vocal chops, crisp claps, warm pads, four-on-the-floor kick, club atmosphere' },
+            { keywords: ['trance'],
+              desc: 'trance, euphoric synth leads, long build-ups, soaring pads, gated reverb, 138 bpm, emotional breakdown, uplifting energy' },
+            { keywords: ['dubstep'],
+              desc: 'dubstep, heavy wobble bass, half-time drums, aggressive drops, distorted synths, sub-bass, filthy sound design' },
+            { keywords: ['drum and bass','dnb','drum n bass'],
+              desc: 'drum and bass, fast breakbeats, rolling bass, chopped amen breaks, 170 bpm, atmospheric pads, high energy' },
+            { keywords: ['lo-fi','lofi','lo fi'],
+              desc: 'lo-fi hip-hop, dusty vinyl crackle, mellow jazz piano samples, tape saturation, lazy boom-bap drums, warm and cozy' },
+            { keywords: ['country'],
+              desc: 'country, acoustic guitar strumming, pedal steel guitar, fiddle, twangy vocals, Nashville production, storytelling lyrics' },
+            { keywords: ['folk'],
+              desc: 'folk, fingerpicked acoustic guitar, gentle vocals, harmonica, banjo, organic sound, storytelling, warm and earthy' },
+            { keywords: ['reggae'],
+              desc: 'reggae, offbeat guitar skanks, deep dub bass, one-drop rhythm, organ bubbling, laid-back tempo, island vibes' },
+            { keywords: ['punk','punk rock'],
+              desc: 'punk rock, fast power chords, aggressive vocals, simple driving drums, raw distorted guitars, short and intense, rebellious energy' },
+            { keywords: ['classical','orchestral','orchestra'],
+              desc: 'orchestral, sweeping string arrangements, brass fanfares, timpani, woodwinds, dynamic crescendos, cinematic and epic' },
+            { keywords: ['ambient'],
+              desc: 'ambient, evolving atmospheric pads, reverb-drenched textures, no drums, gentle drones, ethereal and spacious, meditative' },
+            { keywords: ['soul','funk'],
+              desc: 'soul funk, groovy bass, wah-wah guitar, tight horn section, clav keyboard, syncopated drums, feel-good energy' },
+            { keywords: ['reggaeton','latin'],
+              desc: 'reggaeton, dembow rhythm, heavy bass, latin percussion, catchy vocal hooks, tropical atmosphere, danceable groove' },
+            { keywords: ['disco'],
+              desc: 'disco, four-on-the-floor kick, funky bass, string stabs, hi-hat patterns, rhythm guitar, groovy and danceable, 120 bpm' },
+            { keywords: ['indie'],
+              desc: 'indie, jangly guitars, reverb-soaked vocals, dreamy atmosphere, lo-fi production, emotional and introspective' },
+            { keywords: ['grunge'],
+              desc: 'grunge, heavy distorted guitars, raw vocals, dynamic quiet-loud shifts, sludgy bass, emotional angst, 90s Seattle sound' },
+            { keywords: ['synthwave','retrowave','80s'],
+              desc: 'synthwave, retro analog synths, arpeggiated bass, gated reverb drums, neon atmosphere, 80s nostalgia, driving tempo' },
+            { keywords: ['ballad','slow'],
+              desc: 'ballad, slow tempo, emotional piano, gentle strings, intimate vocals, soft dynamics, heartfelt and tender' },
+        ];
+
+        function enhanceCaption(caption) {
+            const lower = caption.toLowerCase();
+            let enhanced = caption;
+            let matched = false;
+
+            for (const genre of genreEnhancers) {
+                for (const kw of genre.keywords) {
+                    if (lower.includes(kw)) {
+                        // Add the detailed descriptors if not already present
+                        enhanced = caption + '. Style: ' + genre.desc;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (matched) break;
+            }
+
+            return enhanced;
+        }
+
+        // ── Helper: API fetch ──
+        async function apiFetch(endpoint, options = {}) {
+            const res = await fetch(API_BASE + endpoint, {
+                ...options,
+                headers: {
+                    'Authorization': 'Bearer ' + API_KEY,
+                    'Content-Type': 'application/json',
+                    ...(options.headers || {})
+                }
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.message || 'API error ' + res.status);
+            }
+            return res.json();
+        }
+
+        // ── Helper: show toast ──
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
 
         // ── Nav ──
         window.addEventListener('scroll', () => {
@@ -756,6 +1207,30 @@
             const group = document.getElementById(groupId);
             group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
+            // Auto-update sliders when mode changes
+            if (groupId === 'modeGroup') {
+                const mode = btn.dataset.value;
+                const m = MODELS[mode];
+                const ss = document.getElementById('stepsSlider');
+                const gs = document.getElementById('guidanceSlider');
+                ss.min = m.minSteps; ss.max = m.maxSteps; ss.value = m.steps;
+                gs.min = m.minGuidance; gs.max = m.maxGuidance; gs.value = m.guidance; gs.step = m.minGuidance === m.maxGuidance ? 1 : 0.5;
+                document.getElementById('stepsValue').textContent = m.steps;
+                document.getElementById('guidanceValue').textContent = m.guidance;
+                ss.disabled = m.minSteps === m.maxSteps;
+                gs.disabled = m.minGuidance === m.maxGuidance;
+            }
+        }
+
+        // ── Get selected values ──
+        function getSelected(groupId) {
+            return document.getElementById(groupId).querySelector('.toggle-btn.active').dataset.value;
+        }
+
+        // ── Slider label update ──
+        function updateSliderLabel(sliderId, labelId) {
+            document.getElementById(labelId).textContent = document.getElementById(sliderId).value;
         }
 
         // ── Boost ──
@@ -768,7 +1243,7 @@
             setTimeout(() => { input.style.borderColor = ''; }, 1500);
         }
 
-        // ── Go to lyrics (empty) ──
+        // ── Go to lyrics ──
         function goToLyrics() {
             const prompt = document.getElementById('promptInput').value.trim();
             if (!prompt) {
@@ -777,68 +1252,302 @@
                 setTimeout(() => { document.getElementById('promptInput').style.borderColor = ''; }, 1500);
                 return;
             }
+            // Generate lyrics based on prompt and set music description
+            const lyricsEditor = document.getElementById('lyricsEditor');
+            if (!lyricsEditor.value.trim()) {
+                lyricsEditor.value = generateLyricsFromPrompt(prompt);
+            }
+            document.getElementById('musicDescField').value = prompt;
             document.getElementById('stepDescribe').classList.remove('active');
             document.getElementById('stepLyrics').classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ── Generate (empty result) ──
-        function startGenerating() {
+        // ── Generate Track (REAL API) ──
+        async function startGenerating() {
+            const lyrics = document.getElementById('lyricsEditor').value.trim();
+            const caption = document.getElementById('musicDescField').value.trim() || document.getElementById('promptInput').value.trim();
+            const mode = getSelected('modeGroup');
+            const duration = parseInt(getSelected('durationGroup'));
+
+            if (!caption) {
+                showToast('Please provide a music description');
+                return;
+            }
+
+            // Switch to generating state
             document.getElementById('stepLyrics').classList.remove('active');
             document.getElementById('stateGenerating').classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            const stages = [
-                { status: "Analyzing your prompt...", sub: "Understanding mood and genre", progress: 15 },
-                { status: "Composing melody...", sub: "Building chord progressions and structure", progress: 35 },
-                { status: "Generating audio...", sub: "Synthesizing instruments and vocals", progress: 65 },
-                { status: "Finalizing track...", sub: "Mastering and applying effects", progress: 90 },
-            ];
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i < stages.length) {
-                    document.getElementById('genStatus').textContent = stages[i].status;
-                    document.getElementById('genSubstatus').textContent = stages[i].sub;
-                    document.getElementById('progressBar').style.width = stages[i].progress + '%';
-                    i++;
-                } else {
-                    clearInterval(interval);
-                    document.getElementById('progressBar').style.width = '100%';
-                    setTimeout(showResult, 600);
-                }
-            }, 1200);
+            const model = MODELS[mode];
+            const inferenceSteps = parseInt(document.getElementById('stepsSlider').value);
+            const guidanceScale = parseFloat(document.getElementById('guidanceSlider').value);
+
+            document.getElementById('genStatus').textContent = 'Submitting to AI...';
+            document.getElementById('genSubstatus').textContent = 'Sending your request to the generation engine';
+            document.getElementById('progressBar').style.width = '5%';
+
+            try {
+                // Gather all parameters
+                const bpm = parseInt(document.getElementById('bpmSlider').value);
+                const keyscale = document.getElementById('keyscaleSelect').value;
+                const timesig = parseInt(getSelected('timesigGroup'));
+                const vocalLang = document.getElementById('vocalLangSelect').value;
+                const format = getSelected('formatGroup');
+                const seed = parseInt(document.getElementById('seedInput').value) || -1;
+
+                // Submit generation request
+                const body = {
+                    model: model.slug,
+                    caption: enhanceCaption(caption),
+                    lyrics: lyrics || '[Instrumental]',
+                    duration: duration,
+                    inference_steps: inferenceSteps,
+                    guidance_scale: guidanceScale,
+                    seed: seed,
+                    format: format,
+                    bpm: bpm,
+                    timesignature: timesig,
+                };
+                if (keyscale) body.keyscale = keyscale;
+                if (vocalLang) body.vocal_language = vocalLang;
+                const submitRes = await apiFetch('/txt2music', { method: 'POST', body: JSON.stringify(body) });
+                const requestId = submitRes.data.request_id;
+
+                document.getElementById('genStatus').textContent = 'Generating your track...';
+                document.getElementById('genSubstatus').textContent = 'AI is composing, this may take 30-90 seconds';
+                document.getElementById('progressBar').style.width = '15%';
+
+                // Poll for status
+                await pollStatus(requestId);
+
+            } catch (err) {
+                document.getElementById('genStatus').textContent = 'Generation failed';
+                document.getElementById('genSubstatus').textContent = err.message;
+                document.getElementById('progressBar').style.width = '0%';
+                setTimeout(() => {
+                    document.getElementById('stateGenerating').classList.remove('active');
+                    document.getElementById('stepLyrics').classList.add('active');
+                    showToast('Error: ' + err.message);
+                }, 3000);
+            }
         }
 
-        // ── Show empty result ──
+        async function pollStatus(requestId) {
+            const statusMessages = [
+                { at: 20, status: 'Composing melody...', sub: 'Building chord progressions and structure' },
+                { at: 40, status: 'Generating audio...', sub: 'Synthesizing instruments and vocals' },
+                { at: 60, status: 'Rendering waveform...', sub: 'Processing audio layers' },
+                { at: 80, status: 'Finalizing track...', sub: 'Mastering and applying effects' },
+            ];
+            let fakeProgress = 15;
+            let msgIdx = 0;
+
+            return new Promise((resolve, reject) => {
+                const poll = setInterval(async () => {
+                    try {
+                        const res = await apiFetch('/request-status/' + requestId);
+                        const data = res.data;
+
+                        // Update fake progress (since API only gives 0 or 100)
+                        if (data.status !== 'done' && data.status !== 'error') {
+                            fakeProgress = Math.min(fakeProgress + 3, 92);
+                            document.getElementById('progressBar').style.width = fakeProgress + '%';
+
+                            // Rotate status messages
+                            if (msgIdx < statusMessages.length && fakeProgress >= statusMessages[msgIdx].at) {
+                                document.getElementById('genStatus').textContent = statusMessages[msgIdx].status;
+                                document.getElementById('genSubstatus').textContent = statusMessages[msgIdx].sub;
+                                msgIdx++;
+                            }
+                        }
+
+                        if (data.status === 'done') {
+                            clearInterval(poll);
+                            document.getElementById('progressBar').style.width = '100%';
+                            document.getElementById('genStatus').textContent = 'Track ready!';
+                            document.getElementById('genSubstatus').textContent = 'Your song has been generated';
+                            currentResultUrl = data.result_url;
+                            setTimeout(() => showResult(), 800);
+                            resolve();
+                        } else if (data.status === 'error') {
+                            clearInterval(poll);
+                            throw new Error('Generation failed on server. Please try again.');
+                        }
+                    } catch (err) {
+                        clearInterval(poll);
+                        document.getElementById('genStatus').textContent = 'Generation failed';
+                        document.getElementById('genSubstatus').textContent = err.message;
+                        document.getElementById('progressBar').style.width = '0%';
+                        setTimeout(() => {
+                            document.getElementById('stateGenerating').classList.remove('active');
+                            document.getElementById('stepLyrics').classList.add('active');
+                            showToast('Error: ' + err.message);
+                        }, 3000);
+                        reject(err);
+                    }
+                }, 5000);
+            });
+        }
+
+        // ── Show result with real audio ──
         function showResult() {
             document.getElementById('stateGenerating').classList.remove('active');
             document.getElementById('stateResult').classList.add('active');
 
-            // Build empty waveform
+            // Set title and genre from inputs
+            const caption = document.getElementById('musicDescField').value || document.getElementById('promptInput').value;
+            const words = caption.split(/\s+/).slice(0, 4).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+            document.getElementById('resultTitle').textContent = words.join(' ');
+
+            // Detect genre from caption
+            const genreWords = ['pop', 'rock', 'hip-hop', 'rap', 'jazz', 'classical', 'electronic', 'edm', 'r&b', 'rnb', 'country', 'lo-fi', 'lofi', 'metal', 'punk', 'folk', 'blues', 'reggae', 'latin', 'tropical', 'house', 'techno', 'ambient', 'indie', 'soul', 'funk', 'disco', 'orchestral', 'cinematic'];
+            const captionLower = caption.toLowerCase();
+            const detectedGenre = genreWords.find(g => captionLower.includes(g)) || 'AI Generated';
+            document.getElementById('resultGenre').textContent = detectedGenre.charAt(0).toUpperCase() + detectedGenre.slice(1);
+
+            const duration = parseInt(getSelected('durationGroup'));
+            const mode = getSelected('modeGroup');
+            const fmt = getSelected('formatGroup').toUpperCase();
+            const bpmVal = document.getElementById('bpmSlider').value;
+            document.getElementById('resultMeta').textContent = duration + 's \u2022 ' + bpmVal + ' BPM \u2022 ' + (mode === 'turbo' ? 'Turbo' : 'Base') + ' \u2022 ' + fmt;
+
+            // Setup real audio player
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            isPlaying = false;
+            document.getElementById('iconPlay').style.display = '';
+            document.getElementById('iconPause').style.display = 'none';
+
+            currentAudio = new Audio(currentResultUrl);
+            currentAudio.crossOrigin = 'anonymous';
+
+            // Build waveform bars
             const container = document.getElementById('waveform');
             container.innerHTML = '';
-            for (let i = 0; i < 48; i++) {
+            const barCount = 60;
+            const barHeights = [];
+            for (let i = 0; i < barCount; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'wave-bar';
-                bar.style.height = (8 + Math.random() * 32) + 'px';
+                const h = 6 + Math.random() * 34;
+                barHeights.push(h);
+                bar.style.height = h + 'px';
                 container.appendChild(bar);
             }
+
+            // Click on waveform to seek
+            container.addEventListener('click', (e) => {
+                if (!currentAudio || !currentAudio.duration) return;
+                const rect = container.getBoundingClientRect();
+                const pct = (e.clientX - rect.left) / rect.width;
+                currentAudio.currentTime = pct * currentAudio.duration;
+                updateWaveform();
+            });
+
+            // Update waveform on timeupdate
+            currentAudio.addEventListener('timeupdate', updateWaveform);
+            currentAudio.addEventListener('ended', () => {
+                isPlaying = false;
+                document.getElementById('iconPlay').style.display = '';
+                document.getElementById('iconPause').style.display = 'none';
+            });
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ── Player (no-op) ──
-        function togglePlay() {}
+        function updateWaveform() {
+            if (!currentAudio || !currentAudio.duration) return;
+            const pct = currentAudio.currentTime / currentAudio.duration;
+            const bars = document.getElementById('waveform').children;
+            const activeIdx = Math.floor(pct * bars.length);
 
-        // ── Share (no-op) ──
-        function shareSong() {}
+            for (let i = 0; i < bars.length; i++) {
+                bars[i].classList.remove('played', 'current');
+                if (i < activeIdx) bars[i].classList.add('played');
+                else if (i === activeIdx) bars[i].classList.add('current');
+            }
+
+            // Update time display
+            const mins = Math.floor(currentAudio.currentTime / 60);
+            const secs = Math.floor(currentAudio.currentTime % 60);
+            const totalMins = Math.floor(currentAudio.duration / 60);
+            const totalSecs = Math.floor(currentAudio.duration % 60);
+            const timeEl = document.querySelector('.player-time');
+            timeEl.textContent = mins + ':' + String(secs).padStart(2, '0') + ' / ' + totalMins + ':' + String(totalSecs).padStart(2, '0');
+        }
+
+        // ── Player ──
+        function togglePlay() {
+            if (!currentAudio) return;
+            if (isPlaying) {
+                currentAudio.pause();
+                isPlaying = false;
+                document.getElementById('iconPlay').style.display = '';
+                document.getElementById('iconPause').style.display = 'none';
+            } else {
+                currentAudio.play();
+                isPlaying = true;
+                document.getElementById('iconPlay').style.display = 'none';
+                document.getElementById('iconPause').style.display = '';
+            }
+        }
+
+        // ── Share ──
+        function shareSong() {
+            if (currentResultUrl) {
+                navigator.clipboard.writeText(currentResultUrl).then(() => {
+                    showToast('Audio link copied to clipboard!');
+                }).catch(() => {
+                    showToast('Could not copy link');
+                });
+            }
+        }
+
+        // ── Download ──
+        function downloadSong() {
+            if (currentResultUrl) {
+                const a = document.createElement('a');
+                a.href = currentResultUrl;
+                a.download = 'boppy-track.' + getSelected('formatGroup');
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        // ── Lyrics toggle in result ──
+        function toggleResultLyrics() {
+            const btn = document.querySelector('.result-lyrics-toggle');
+            const content = document.querySelector('.lyrics-content');
+            btn.classList.toggle('open');
+            content.classList.toggle('open');
+
+            if (content.classList.contains('open')) {
+                const lyrics = document.getElementById('lyricsEditor').value;
+                content.innerHTML = lyrics.replace(/\[(.*?)\]/g, '<span class="tag">[$1]</span>');
+            }
+        }
 
         // ── Create another ──
         function createAnother() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            isPlaying = false;
+            currentResultUrl = null;
             document.getElementById('stateResult').classList.remove('active');
             document.getElementById('stateGenerating').classList.remove('active');
             document.getElementById('stepLyrics').classList.remove('active');
             document.getElementById('stepDescribe').classList.add('active');
             document.getElementById('promptInput').value = '';
+            document.getElementById('lyricsEditor').value = '';
+            document.getElementById('musicDescField').value = '';
             document.getElementById('progressBar').style.width = '0%';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
