@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlight Serenade — Boppy AI Music</title>
+    <meta name="description" content="Listen to Starlight Serenade, an AI-generated pop track made with Boppy.">
+    <meta property="og:title" content="Starlight Serenade — Made with Boppy AI">
+    <meta property="og:description" content="An upbeat summer pop song with catchy hooks and bright synths. Listen now.">
+    <meta property="og:type" content="music.song">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff8e48;
+            --primary-hover: #ff9a5c;
+            --accent: #72dce5;
+            --highlight: #ff5948;
+            --surface: #0c1b24;
+            --surface-light: #142935;
+            --surface-lighter: #1e3a4a;
+            --border: #1e3a4a;
+            --muted: #64748b;
+            --muted-light: #94a3b8;
+            --text: #e2e8f0;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(12, 27, 36, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--highlight));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            color: #fff;
+        }
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .nav-cta:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Track Section */
+        .track-section {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 48px 24px 64px;
+        }
+
+        /* Track Header */
+        .track-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .track-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .track-caption {
+            font-size: 16px;
+            color: var(--muted-light);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .badge-genre {
+            background: rgba(114, 220, 229, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(114, 220, 229, 0.25);
+        }
+        .badge-ai {
+            background: rgba(255, 142, 72, 0.12);
+            color: var(--primary);
+            border: 1px solid rgba(255, 142, 72, 0.25);
+        }
+        .badge-ai svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Player Card */
+        .player-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(255, 142, 72, 0.3);
+        }
+        .play-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+            box-shadow: 0 6px 32px rgba(255, 142, 72, 0.4);
+        }
+        .play-btn:active {
+            transform: scale(0.97);
+        }
+        .play-btn svg {
+            width: 26px;
+            height: 26px;
+            fill: #000;
+        }
+        .play-icon-pause { display: none; }
+        .play-btn.playing .play-icon-play { display: none; }
+        .play-btn.playing .play-icon-pause { display: block; }
+
+        /* Waveform */
+        .waveform-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .waveform {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 48px;
+        }
+        .waveform-bar {
+            flex: 1;
+            border-radius: 2px;
+            background: var(--surface-lighter);
+            transition: background 0.3s;
+        }
+        .waveform-bar.active {
+            background: var(--primary);
+        }
+
+        /* Progress */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .progress-time {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            min-width: 36px;
+            font-variant-numeric: tabular-nums;
+        }
+        .progress-time-end {
+            text-align: right;
+        }
+        .progress-track {
+            flex: 1;
+            height: 4px;
+            background: var(--surface-lighter);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        /* Lyrics */
+        .lyrics-section {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .lyrics-heading {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+        .lyrics-content {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text);
+            white-space: pre-line;
+        }
+        .lyrics-content .label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+        .lyrics-content .label:first-child {
+            margin-top: 0;
+        }
+        .lyrics-content .line {
+            display: block;
+            color: var(--muted-light);
+        }
+
+        /* Share Buttons */
+        .share-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .share-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, border-color 0.2s;
+            text-decoration: none;
+        }
+        .share-btn:active { transform: scale(0.97); }
+        .share-btn svg { width: 18px; height: 18px; }
+
+        .btn-copy {
+            background: var(--surface-lighter);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-copy:hover {
+            background: var(--surface-light);
+            border-color: var(--muted);
+        }
+        .btn-copy.copied {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-remix {
+            background: rgba(255, 142, 72, 0.12);
+            color: var(--primary);
+            border: 1px solid rgba(255, 142, 72, 0.25);
+        }
+        .btn-remix:hover {
+            background: rgba(255, 142, 72, 0.2);
+            border-color: rgba(255, 142, 72, 0.4);
+        }
+
+        /* Metadata */
+        .track-meta {
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 64px 24px 80px;
+            border-top: 1px solid var(--border);
+        }
+        .cta-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        .cta-section p {
+            font-size: 16px;
+            color: var(--muted-light);
+            margin-bottom: 28px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(255, 142, 72, 0.3);
+        }
+        .cta-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 142, 72, 0.4);
+        }
+        .cta-btn:active { transform: translateY(0); }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 24px;
+        }
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-copy {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-links a {
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .track-title {
+                font-size: 28px;
+            }
+            .track-caption {
+                font-size: 15px;
+            }
+            .player-card {
+                padding: 24px;
+            }
+            .player-controls {
+                gap: 16px;
+            }
+            .play-btn {
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+            }
+            .play-btn svg {
+                width: 22px;
+                height: 22px;
+            }
+            .waveform {
+                height: 40px;
+                gap: 2px;
+            }
+            .lyrics-section {
+                padding: 24px;
+            }
+            .share-row {
+                flex-direction: column;
+            }
+            .cta-section h2 {
+                font-size: 24px;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">B</div>
+                boppy
+            </a>
+            <a href="generate.html" class="nav-cta">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Create your own
+            </a>
+        </div>
+    </nav>
+
+    <!-- Track Section -->
+    <section class="track-section">
+
+        <!-- Header -->
+        <div class="track-header">
+            <h1 class="track-title">Starlight Serenade</h1>
+            <p class="track-caption">An upbeat summer pop song with catchy hooks and bright synths</p>
+            <div class="badges">
+                <span class="badge badge-genre">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-7.07-2.93l4.24-4.24m5.66-5.66l4.24-4.24M1 12h6m6 0h6m-2.93 7.07l-4.24-4.24m-5.66-5.66L4.93 4.93"/></svg>
+                    Pop
+                </span>
+                <span class="badge badge-ai">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    Made with Boppy AI
+                </span>
+            </div>
+        </div>
+
+        <!-- Player -->
+        <div class="player-card">
+            <div class="player-controls">
+                <button class="play-btn" id="playBtn" aria-label="Play">
+                    <svg class="play-icon-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21"/></svg>
+                    <svg class="play-icon-pause" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+                </button>
+                <div class="waveform-container">
+                    <div class="waveform" id="waveform"></div>
+                    <div class="progress-row">
+                        <span class="progress-time" id="currentTime">0:00</span>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-time progress-time-end">2:34</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lyrics -->
+        <div class="lyrics-section">
+            <div class="lyrics-heading">Lyrics</div>
+            <div class="lyrics-content" id="lyricsContent"></div>
+        </div>
+
+        <!-- Share / Actions -->
+        <div class="share-row">
+            <button class="share-btn btn-copy" id="copyBtn" onclick="copyLink()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copyText">Copy Link</span>
+            </button>
+            <a href="generate.html" class="share-btn btn-remix">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                Remix this track
+            </a>
+        </div>
+
+        <!-- Meta -->
+        <p class="track-meta">Generated on March 8, 2026 &middot; 2:34 &middot; Pop</p>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Want to create your own?</h2>
+        <p>Describe any idea and Boppy turns it into a full song with lyrics in minutes.</p>
+        <a href="generate.html" class="cta-btn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start creating for free
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <div class="logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">B</div>
+                <span style="font-weight:700;color:#fff;">boppy</span>
+                <span class="footer-copy">&mdash; &copy; 2026 Boppy. Open source AI music.</span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Lyrics data
+        const lyricsData = [
+            { label: 'Verse 1', lines: ['Underneath the neon glow tonight', 'We dance like nobody\'s watching', 'The city hums a melody so bright', 'Our hearts keep on unlocking'] },
+            { label: 'Chorus', lines: ['Starlight serenade, hold me close', 'In this moment we need the most', 'Let the music take us far away', 'Starlight serenade'] },
+            { label: 'Verse 2', lines: ['The bass drops low, the lights go high', 'We\'re floating through the sound', 'Every beat a shooting star goes by', 'Our feet don\'t touch the ground'] },
+            { label: 'Bridge', lines: ['And when the morning comes to steal the night', 'We\'ll hold this feeling tight'] },
+            { label: 'Chorus', lines: ['Starlight serenade, hold me close', 'In this moment we need the most', 'Let the music take us far away', 'Starlight serenade'] },
+        ];
+
+        // Render lyrics
+        const lyricsEl = document.getElementById('lyricsContent');
+        lyricsData.forEach(section => {
+            const labelEl = document.createElement('span');
+            labelEl.className = 'label';
+            labelEl.textContent = '[' + section.label + ']';
+            lyricsEl.appendChild(labelEl);
+            section.lines.forEach(line => {
+                const lineEl = document.createElement('span');
+                lineEl.className = 'line';
+                lineEl.textContent = line;
+                lyricsEl.appendChild(lineEl);
+            });
+        });
+
+        // Generate waveform bars
+        const waveform = document.getElementById('waveform');
+        const barCount = 48;
+        const barHeights = [];
+        for (let i = 0; i < barCount; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'waveform-bar';
+            const h = 6 + Math.random() * 38;
+            barHeights.push(h);
+            bar.style.height = h + 'px';
+            waveform.appendChild(bar);
+        }
+
+        // Play/pause toggle with fake progress
+        const playBtn = document.getElementById('playBtn');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalSeconds = 154; // 2:34
+        let isPlaying = false;
+        let elapsed = 0;
+        let intervalId = null;
+
+        function formatTime(s) {
+            const m = Math.floor(s / 60);
+            const sec = Math.floor(s % 60);
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function updateProgress() {
+            const pct = (elapsed / totalSeconds) * 100;
+            progressFill.style.width = pct + '%';
+            currentTimeEl.textContent = formatTime(elapsed);
+
+            // Color active waveform bars
+            const bars = waveform.querySelectorAll('.waveform-bar');
+            const activeCount = Math.floor((elapsed / totalSeconds) * barCount);
+            bars.forEach((bar, i) => {
+                bar.classList.toggle('active', i < activeCount);
+            });
+
+            if (elapsed >= totalSeconds) {
+                isPlaying = false;
+                playBtn.classList.remove('playing');
+                clearInterval(intervalId);
+                intervalId = null;
+                elapsed = 0;
+                updateProgress();
+            }
+        }
+
+        playBtn.addEventListener('click', function () {
+            isPlaying = !isPlaying;
+            playBtn.classList.toggle('playing', isPlaying);
+
+            if (isPlaying) {
+                intervalId = setInterval(function () {
+                    elapsed += 0.25;
+                    updateProgress();
+                }, 250);
+            } else {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        });
+
+        // Copy link
+        function copyLink() {
+            const btn = document.getElementById('copyBtn');
+            const text = document.getElementById('copyText');
+            navigator.clipboard.writeText(window.location.href).then(function () {
+                btn.classList.add('copied');
+                text.textContent = 'Copied!';
+                setTimeout(function () {
+                    btn.classList.remove('copied');
+                    text.textContent = 'Copy Link';
+                }, 2000);
+            }).catch(function () {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = window.location.href;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                btn.classList.add('copied');
+                text.textContent = 'Copied!';
+                setTimeout(function () {
+                    btn.classList.remove('copied');
+                    text.textContent = 'Copy Link';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

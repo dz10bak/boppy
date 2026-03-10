@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Use — Boppy</title>
+    <meta name="description" content="Boppy Terms of Use. Read the terms governing your use of the service.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: #0a1620;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        :root {
+            --primary: #ff8e48;
+            --primary-hover: #ff9a5c;
+            --accent: #72dce5;
+            --highlight: #ff5948;
+            --surface: #0c1b24;
+            --surface-light: #142935;
+            --surface-lighter: #1e3a4a;
+            --border: #1e3a4a;
+            --muted: #64748b;
+            --muted-light: #94a3b8;
+            --text: #e2e8f0;
+        }
+
+        /* Nav */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 48px;
+            background: rgba(10, 22, 32, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(30, 58, 74, 0.5);
+            transition: padding 0.3s;
+        }
+        .nav.scrolled { padding: 14px 48px; }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--highlight));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 800; color: #fff;
+        }
+        .logo-text { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+        .nav-cta {
+            padding: 10px 24px; border-radius: 50px; font-weight: 600; font-size: 14px;
+            background: var(--primary); color: #000;
+            transition: all 0.2s; border: none; cursor: pointer;
+            display: inline-block;
+        }
+        .nav-cta:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,142,72,0.25); }
+
+        /* Content */
+        .page-content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 140px 24px 80px;
+        }
+        .page-content h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .effective-date {
+            color: var(--muted-light);
+            font-size: 14px;
+            margin-bottom: 48px;
+        }
+        .page-content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-left: 16px;
+            border-left: 3px solid var(--accent);
+        }
+        .page-content p {
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .page-content ul {
+            margin: 12px 0 16px 24px;
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .page-content ul li {
+            margin-bottom: 8px;
+        }
+        .page-content a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .page-content a:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 48px; border-top: 1px solid var(--border);
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { color: var(--muted); font-size: 14px; transition: color 0.2s; }
+        .footer-links a:hover { color: #fff; }
+        .footer-copy { color: var(--muted); font-size: 13px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav { padding: 16px 24px; }
+            .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+            .footer-links { justify-content: center; }
+            .page-content h2 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="nav" id="nav">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">B</div>
+            <span class="logo-text">boppy</span>
+        </a>
+        <a href="generate.html" class="nav-cta">Create a Song</a>
+    </nav>
+
+    <!-- Content -->
+    <main class="page-content">
+        <h1>Terms of Use</h1>
+        <p class="effective-date">Effective Date: March 7, 2026</p>
+
+        <h2>1. Acceptance</h2>
+        <p>By accessing or using Boppy, you agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use the service.</p>
+
+        <h2>2. Eligibility</h2>
+        <p>You must be at least 13 years old to use Boppy. If you are under 18, you must have parental or guardian consent to use the service.</p>
+
+        <h2>3. The Service</h2>
+        <p>Boppy is a free AI music generator. You describe an idea, and our AI creates a complete song with lyrics and audio. The service is open source.</p>
+
+        <h2>4. Your Content</h2>
+        <p>Boppy does not claim ownership over the audio, lyrics, or other content generated by the AI models through your use of the service.</p>
+        <p>You are responsible for the prompts you submit and how you use the generated content.</p>
+
+        <h2>5. Permitted Use</h2>
+        <p>You may use Boppy and the content it generates for:</p>
+        <ul>
+            <li>Personal projects</li>
+            <li>Creative works</li>
+            <li>Commercial purposes</li>
+        </ul>
+        <p>You may not use Boppy for:</p>
+        <ul>
+            <li>Any illegal activity</li>
+            <li>Spam or automated abuse of the service</li>
+            <li>Generating content that infringes on the rights of others</li>
+        </ul>
+
+        <h2>6. Intellectual Property</h2>
+        <p>The Boppy name, logo, and branding are our intellectual property. The source code is open-source.</p>
+
+        <h2>7. Disclaimer</h2>
+        <p>Boppy is provided "as is" without warranties of any kind, express or implied. We make no guarantees regarding the availability, accuracy, or quality of the service or its output.</p>
+
+        <h2>8. Changes</h2>
+        <p>We may update these Terms of Use from time to time. Continued use of Boppy after changes are posted constitutes your acceptance of the revised terms.</p>
+
+        <h2>9. Contact</h2>
+        <p>If you have any questions about these Terms of Use, please contact us at <a href="mailto:support@boppy.me">support@boppy.me</a>.</p>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <div class="logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">B</div>
+                <span style="font-weight:700;color:#fff;">boppy</span>
+                <span class="footer-copy">&nbsp;&mdash;&nbsp;&copy; 2026 Boppy. Open source AI music.</span>
+            </div>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+                <a href="#" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
