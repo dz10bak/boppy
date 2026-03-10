@@ -646,8 +646,70 @@
                 </button>
 
                 <button class="btn-action" id="btnContinue" onclick="goToLyrics()">
-                    Generate Track &rarr;
+                    Continue to lyrics &rarr;
                 </button>
+            </div>
+
+            <!-- Step 2: Lyrics -->
+            <div class="gen-step" id="stepLyrics">
+                <div class="step-label">
+                    <span class="num">3</span>
+                    Edit lyrics
+                </div>
+                <textarea class="lyrics-area" id="lyricsEditor" placeholder="AI-generated lyrics will appear here..."></textarea>
+                <div class="structure-hint">
+                    <span>&#128161;</span>
+                    Use <code>[Verse]</code>, <code>[Chorus]</code>, <code>[Bridge]</code> to guide structure
+                </div>
+
+                <div class="field-label">Music Description</div>
+                <textarea class="music-desc-field" id="musicDescField" readonly placeholder="Auto-generated music description..."></textarea>
+
+                <button class="btn-action" onclick="startGenerating()">
+                    &#10022; Generate Track
+                </button>
+            </div>
+
+            <!-- Generating state -->
+            <div class="generating-state" id="stateGenerating">
+                <div class="spinner"></div>
+                <div class="gen-status" id="genStatus">Analyzing your prompt...</div>
+                <div class="gen-substatus" id="genSubstatus">This usually takes 15-30 seconds</div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Result (empty) -->
+            <div class="result-section" id="stateResult">
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="result-title" id="resultTitle"></div>
+                        <span class="genre-badge" id="resultGenre"></span>
+                    </div>
+                    <div class="result-meta" id="resultMeta"></div>
+
+                    <div class="player-wrap">
+                        <div class="player">
+                            <button class="play-btn" onclick="togglePlay()">
+                                <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+                                <svg id="iconPause" viewBox="0 0 24 24" style="display:none;"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+                            </button>
+                            <div class="waveform" id="waveform"></div>
+                            <span class="player-time">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="btn-secondary" onclick="shareSong()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            Share
+                        </button>
+                        <button class="btn-new" onclick="createAnother()">
+                            + Create another track
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -706,14 +768,79 @@
             setTimeout(() => { input.style.borderColor = ''; }, 1500);
         }
 
-        // ── Generate (no-op) ──
+        // ── Go to lyrics (empty) ──
         function goToLyrics() {
             const prompt = document.getElementById('promptInput').value.trim();
             if (!prompt) {
                 document.getElementById('promptInput').focus();
                 document.getElementById('promptInput').style.borderColor = 'var(--highlight)';
                 setTimeout(() => { document.getElementById('promptInput').style.borderColor = ''; }, 1500);
+                return;
             }
+            document.getElementById('stepDescribe').classList.remove('active');
+            document.getElementById('stepLyrics').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Generate (empty result) ──
+        function startGenerating() {
+            document.getElementById('stepLyrics').classList.remove('active');
+            document.getElementById('stateGenerating').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const stages = [
+                { status: "Analyzing your prompt...", sub: "Understanding mood and genre", progress: 15 },
+                { status: "Composing melody...", sub: "Building chord progressions and structure", progress: 35 },
+                { status: "Generating audio...", sub: "Synthesizing instruments and vocals", progress: 65 },
+                { status: "Finalizing track...", sub: "Mastering and applying effects", progress: 90 },
+            ];
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < stages.length) {
+                    document.getElementById('genStatus').textContent = stages[i].status;
+                    document.getElementById('genSubstatus').textContent = stages[i].sub;
+                    document.getElementById('progressBar').style.width = stages[i].progress + '%';
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('progressBar').style.width = '100%';
+                    setTimeout(showResult, 600);
+                }
+            }, 1200);
+        }
+
+        // ── Show empty result ──
+        function showResult() {
+            document.getElementById('stateGenerating').classList.remove('active');
+            document.getElementById('stateResult').classList.add('active');
+
+            // Build empty waveform
+            const container = document.getElementById('waveform');
+            container.innerHTML = '';
+            for (let i = 0; i < 48; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'wave-bar';
+                bar.style.height = (8 + Math.random() * 32) + 'px';
+                container.appendChild(bar);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Player (no-op) ──
+        function togglePlay() {}
+
+        // ── Share (no-op) ──
+        function shareSong() {}
+
+        // ── Create another ──
+        function createAnother() {
+            document.getElementById('stateResult').classList.remove('active');
+            document.getElementById('stateGenerating').classList.remove('active');
+            document.getElementById('stepLyrics').classList.remove('active');
+            document.getElementById('stepDescribe').classList.add('active');
+            document.getElementById('promptInput').value = '';
+            document.getElementById('progressBar').style.width = '0%';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
